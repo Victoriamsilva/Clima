@@ -1,5 +1,14 @@
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const Container = styled.div`
-    margin: 20px 30px;
+    padding: ${props => props.theme.padding.l};
+    margin: 0
+`;
+
+export const GlobalStyles = createGlobalStyle`
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 `;
