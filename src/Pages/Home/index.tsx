@@ -1,5 +1,8 @@
+import Input from "../../Components/Input";
+
+
 export default function Home() {
     return (
-        <h1>Clima</h1>
+        <Input/>
     )
 }
