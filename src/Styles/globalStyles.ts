@@ -1,30 +1,14 @@
-import styled, { createGlobalStyle } from 'styled-components'
-import Rain from '../Assets/Pattern/Rain.svg'
-
+import styled, { createGlobalStyle } from "styled-components";
 
 export const Container = styled.div`
-    padding: ${({ theme }) => theme.padding.xl} !important;
-    margin: 0;
-    display: flex;
-    max-height: 100vh;
-    max-width: 100vw;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    flex-direction: column;
+  padding: ${({ theme }) => theme.padding.xl} !important;
+  margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
-
-
-export const ImageBackground = styled.div`
-    background-image: url(${Rain});
-    opacity: 0.1;
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-
-`
 
 export const GlobalStyles = createGlobalStyle`
 * {
@@ -35,5 +19,19 @@ export const GlobalStyles = createGlobalStyle`
 
 body {
   font-family: 'Ubuntu', sans-serif;
+  background-color: $;
+
 }
+`;
+
+export const Icon = styled.img<{ size?: string }>`
+  width: ${({ size }) => size || "40px"};
+`;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  align-self: end;
+  width: 100%;
 `;

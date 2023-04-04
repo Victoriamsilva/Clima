@@ -1,58 +1,72 @@
-import { useEffect, useState } from "react";
-import { api } from "../../Services/api";
+import { DailyWeather, HourlyWeather } from "../../Entities/dailyWeather";
+import BoxTemperature from "../BoxTemperature";
+import Chip from "../Chip";
+import Rain from "../../Assets/Icons/rain.svg";
+import Wind from "../../Assets/Icons/wind.svg";
+import Sunrise from "../../Assets/Icons/sunrise.svg";
+import Sunset from "../../Assets/Icons/sunset.svg";
+import { Icon } from "../../Styles/globalStyles";
+import { getHour } from "../../Utils/getHour";
+import { getWeatherDetail } from "../../Utils/getWeatherDetail";
 import * as S from "./style";
-import { CurrentWeather } from "../../Entities/currentWeather";
-import { DaylyWeather } from "../../Entities/dailyWeather";
-import Card from "../Card";
+interface MainContentProps {
+  dailyWeather: DailyWeather;
+  hourlyWeather: HourlyWeather[];
+}
 
-export default function MainContent() {
-  const [currentWeather, setCurrentWeather] = useState<CurrentWeather | null>(
-    null,
-  );
-  const [dailyWeather, setDailyWeather] = useState<DaylyWeather[] | null>(null);
-
-  const getData = () => {
-    api.get("").then(({ data }) => {
-      setDailyWeather(formatDailyWeather(data.daily));
-      setCurrentWeather(data.current_weather);
-    });
-  };
-
-  function formatDailyWeather(data: any): DaylyWeather[] {
-    let dataFormatted: DaylyWeather[] = [];
-    data.time.forEach((day: string, index: number) => {
-      dataFormatted.push({
-        apparentMaxTemperature: data.apparent_temperature_max[index],
-        apparentMinTemperature: data.apparent_temperature_min[index],
-        maxTemperature: data.temperature_2m_max[index],
-        minTemperature: data.temperature_2m_min[index],
-        day: day,
-      });
-    });
-    return dataFormatted;
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
-
+export default function MainContent({
+  dailyWeather,
+  hourlyWeather,
+}: MainContentProps) {
   return (
     <S.MainContent>
-      {currentWeather != null && (
-        <S.CurrentWheater>
-          <h1>{currentWeather.temperature}</h1>
-          <span>°C</span>
-          <p>
-            Chuva:
-            <br />
-            Umidade:
-            <br />
-            Vento:
-          </p>
-        </S.CurrentWheater>
-      )}
-      {dailyWeather != null &&
-        dailyWeather.map((item: DaylyWeather) => <Card data={item} />)}
+      <p>
+        Previsao do dia 0 {new Date(dailyWeather.day).getDate()}
+        {getWeatherDetail(dailyWeather.weatherCode || 0).climate}
+      </p>
+      <S.Box>
+        <Chip title="TEMPERATURA">
+          <div>
+            <BoxTemperature
+              minTemperature={dailyWeather.minTemperature}
+              maxTemperature={dailyWeather.maxTemperature}
+            />
+          </div>
+        </Chip>
+        <Chip title="AMANHECER">
+          <Icon src={Sunrise} />
+          {getHour(
+            dailyWeather.sunrise != undefined ? dailyWeather.sunrise : "",
+          ) + "h"}
+        </Chip>
+        <Chip title="CREPUSCULO">
+          <Icon src={Sunset} />
+          {getHour(
+            dailyWeather.sunset != undefined ? dailyWeather.sunset : "",
+          ) + "h"}
+        </Chip>
+        <Chip title="CHUVA">
+          <Icon src={Rain} size="30px" />
+          {dailyWeather.precipitationProbability + "%" + " de chance"}
+        </Chip>
+        <Chip title="VENTO">
+          <Icon src={Wind} size="30px" />
+          {dailyWeather.windSpeed &&
+            dailyWeather.windSpeed +
+              "km/h" +
+              "-" +
+              dailyWeather.windDirection +
+              "°"}
+        </Chip>
+        <Chip title="SENSACAO TERMICA">
+          <div>
+            <BoxTemperature
+              minTemperature={dailyWeather.apparentMinTemperature}
+              maxTemperature={dailyWeather.apparentMaxTemperature}
+            />
+          </div>
+        </Chip>
+      </S.Box>
     </S.MainContent>
   );
 }

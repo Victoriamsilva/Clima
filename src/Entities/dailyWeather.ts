@@ -1,7 +1,18 @@
-export interface DaylyWeather {
-  apparentMaxTemperature: number;
-  apparentMinTemperature: number;
+export interface WeeklyWeather {
+  day: string;
   maxTemperature: number;
   minTemperature: number;
-  day: string;
+  weatherCode: number;
 }
+
+export interface DailyWeather extends WeeklyWeather {
+  apparentMaxTemperature: number;
+  apparentMinTemperature: number;
+  precipitationProbability: number;
+  sunrise: string;
+  sunset: string;
+  windSpeed: number;
+  windDirection: string;
+}
+
+export interface HourlyWeather {}
