@@ -24,7 +24,7 @@ export default function Card({ data, onClick, selectedDay }: CardProps) {
   return (
     <S.Card onClick={() => onClick()} selectedDay={selectedDay === data.day}>
       <h4>{getWeekDayName(data.day)}</h4>
-      <Icon src={getWeatherDetail(data.weatherCode || -1).icon} />
+      <Icon src={getWeatherDetail(data.weatherCode).icon} />
       <S.Box>
         <BoxTemperature
           minTemperature={data.minTemperature}

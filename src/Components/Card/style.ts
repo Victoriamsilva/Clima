@@ -5,19 +5,18 @@ interface CardProps {
 }
 
 export const Card = styled.div<CardProps>`
-  height: 100px;
+  /* height: 100px; */
   max-width: 200px;
-  backdrop-filter: blur(0px) saturate(144%);
-  -webkit-backdrop-filter: blur(0px) saturate(144%);
-  background-color: ${({ selectedDay }) =>
-    selectedDay ? "red" : "rgba(106, 175, 235, 0.36)"};
+  background: ${({ selectedDay, theme }) =>
+    selectedDay ? theme.colors.glassSelected : theme.colors.glass};
+  border: 1px solid ${({ theme }) => theme.border.white};
   border-radius: 12px;
-  border: 1px solid rgba(209, 213, 219, 0.3);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: ${({ theme }) => theme.padding.xs};
+  padding: ${({ theme }) => theme.spacing.m};
   font-weight: 400;
+  color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
   img {
     align-self: center;
@@ -26,13 +25,96 @@ export const Card = styled.div<CardProps>`
   h4 {
     text-align: center;
     font-weight: 400;
+    margin-bottom: ${({ theme }) => theme.spacing.m};
   }
   h4::first-letter {
     text-transform: capitalize;
   }
+  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+    border-radius: 0;
+    max-width: 92px;
+    h4 {
+      margin: 0;
+    }
+    img {
+      width: 20px;
+    }
+    &:first-of-type {
+      border-radius: 12px 0 0 12px;
+    }
+
+    &:last-of-type {
+      border-radius: 0 12px 12px 0;
+    }
+  }
+
+  @media screen and (${({ theme }) => theme.devices.mobileM}) {
+    &:first-of-type {
+      border-radius: 12px 0 0 0;
+    }
+
+    &:nth-of-type(6) {
+      border-radius: 0 12px 12px 0;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 12px 12px;
+    }
+  }
+
+  @media screen and (${({ theme }) => theme.devices.mobileS}) {
+    &:nth-of-type(5) {
+      border-radius: 0 12px 12px 0;
+    }
+
+    &:nth-of-type(6) {
+      border-radius: 0 0 0 12px;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 12px 0;
+    }
+  }
+
+  @media screen and (${({ theme }) => theme.devices.mobileXS}) {
+    &:nth-of-type(4) {
+      border-radius: 0 12px 12px 0;
+    }
+
+    &:nth-of-type(5) {
+      border-radius: 0 0 0 12px;
+    }
+
+    &:nth-of-type(6) {
+      border-radius: 0;
+    }
+  }
+
+  @media screen and (${({ theme }) => theme.devices.mobileXXS}) {
+    &:nth-of-type(3) {
+      border-radius: 0 12px 0 0;
+    }
+    &:nth-of-type(4),
+    &:nth-of-type(5) {
+      border-radius: 0;
+    }
+
+    &:nth-of-type(6) {
+      border-radius: 0 0 12px 0;
+    }
+
+    &:nth-of-type(7) {
+      border-radius: 0 0 12px 12px;
+    }
+  }
 `;
 
 export const Box = styled.div`
+  margin-top: ${({ theme }) => theme.spacing.m};
   display: flex;
   justify-content: space-between;
+
+  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+    display: none;
+  }
 `;

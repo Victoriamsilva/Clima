@@ -1,13 +1,15 @@
 import styled, { createGlobalStyle } from "styled-components";
 
 export const Container = styled.div`
-  padding: ${({ theme }) => theme.padding.xl} !important;
   margin: 0;
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  max-height: 100vh;
+  min-height: 100vh;
+
+  @media screen and (${({ theme }) => theme.devices.tablet}) {
+    flex-direction: column;
+  }
 `;
 
 export const GlobalStyles = createGlobalStyle`
@@ -19,7 +21,6 @@ export const GlobalStyles = createGlobalStyle`
 
 body {
   font-family: 'Ubuntu', sans-serif;
-  background-color: $;
 
 }
 `;

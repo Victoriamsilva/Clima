@@ -3,6 +3,7 @@ import {
   HourlyWeather,
   WeeklyWeather,
 } from "../Entities/dailyWeather";
+import { ILocation } from "../Entities/location";
 import { getHour } from "./getHour";
 
 export function formatDailyWeather(data: any): DailyWeather {
@@ -53,6 +54,25 @@ export function formatHourlyWeather(data: any): HourlyWeather[] {
       hour: getHour(hour),
     };
     dataFormatted.push(object);
+  });
+  return dataFormatted;
+}
+
+export function formatLocation(data: any) {
+  let dataFormatted: ILocation[] = [];
+  data?.forEach((location: any) => {
+    location.admin2 &&
+      dataFormatted.push({
+        country: location?.country,
+        locationName1: location?.admin2,
+        locationName2: location?.admin1,
+        locationName3: location?.admin3,
+        locationName4: location?.admin4,
+        latitude: location?.latitude,
+        longitude: location?.longitude,
+        timezone: location?.timezone,
+        contryCode: location?.country_code,
+      });
   });
   return dataFormatted;
 }

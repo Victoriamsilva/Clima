@@ -23,6 +23,14 @@ import {
   formatHourlyWeather,
   formatWeeklyWeather,
 } from "../../Utils/formatObjects";
+import CurrentWeatherBox from "../../Components/CurrentWeather";
+import { itens } from "../itens";
+export interface ILocation {
+  name?: string;
+  latitude: number;
+  longitude: number;
+  timezone: string;
+}
 
 export default function Home() {
   const [video, setVideo] = useState<any>(undefined);
@@ -37,25 +45,31 @@ export default function Home() {
     null,
   );
   const [selectedDay, setSelectedDay] = useState("");
+  const [locationData, setLocationData] = useState<ILocation | null>(null);
 
   async function getCurrentWeatherData() {
-    const data = await getCurrentWeather();
-    setCurrentWeather(data);
+    if (locationData) {
+      const data = await getCurrentWeather(locationData);
+      setCurrentWeather(data);
+    }
   }
 
   async function getWeeklyWeatherData() {
-    const data = await getWeeklyWeather();
-    const dataFormatted = formatWeeklyWeather(data);
-    setWeeklyWeather(dataFormatted);
+    if (locationData) {
+      const data = await getWeeklyWeather(locationData);
+      const dataFormatted = formatWeeklyWeather(data);
+      setWeeklyWeather(dataFormatted);
+    }
   }
 
   async function getDailyWeatherData(day: string) {
-    const data = await getDailyWeather(day);
-    const dataDailyFormatted = formatDailyWeather(data.daily);
-    const dataHourlyFormatted = formatHourlyWeather(data.hourly);
-    console.log(dataDailyFormatted);
-    setDailyWeather(dataDailyFormatted);
-    setHourlyWeather(dataHourlyFormatted);
+    if (locationData) {
+      const data = await getDailyWeather(day, locationData);
+      const dataDailyFormatted = formatDailyWeather(data);
+      // const dataHourlyFormatted = formatHourlyWeather(data.hourly);
+      setDailyWeather(dataDailyFormatted);
+      // setHourlyWeather(dataHourlyFormatted);
+    }
   }
 
   function onChangeDay(day: string) {
@@ -63,14 +77,36 @@ export default function Home() {
     getDailyWeatherData(day);
   }
 
+  function getLocationData() {
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      const locationData = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        timezone: new Date()
+          .toLocaleTimeString("en-us", { timeZoneName: "short" })
+          .split(" ")[2]
+          .replace(/-\d/g, ""),
+      };
+      setLocationData(locationData);
+    });
+  }
+
+  useEffect(() => {
+    getLocationData();
+  }, []);
   useEffect(() => {
     getCurrentWeatherData();
     getWeeklyWeatherData();
-  }, []);
+    console.log(locationData);
+  }, [locationData]);
 
   useEffect(() => {
     setVideo(
-      getVideoBackground((dailyWeather && dailyWeather.weatherCode) || -1),
+      getVideoBackground(
+        (selectedDay !== null
+          ? dailyWeather?.weatherCode
+          : currentWeather?.weathercode) || 1,
+      ),
     );
   }, [dailyWeather]);
 
@@ -89,41 +125,30 @@ export default function Home() {
 
   return (
     <Container>
-      <Input />
       {currentWeather && (
-        <S.CurrentWheater>
-          <h1>{currentWeather.temperature}</h1>
-          <span>°C</span>
-          <p>
-            Chuva:
-            <br />
-            Umidade:
-            <br />
-            Vento:
-          </p>
-        </S.CurrentWheater>
-      )}
-      <S.Grid>
-        {weeklyWeather &&
-          weeklyWeather.map((item: WeeklyWeather, index) => (
-            <Card
-              data={item}
-              key={index}
-              onClick={() => onChangeDay(item.day)}
-              selectedDay={selectedDay}
-            />
-          ))}
-      </S.Grid>
-      {dailyWeather && hourlyWeather && (
-        <MainContent
-          dailyWeather={dailyWeather}
-          hourlyWeather={hourlyWeather}
+        <CurrentWeatherBox
+          data={currentWeather}
+          setLocationData={(e) => setLocationData(e)}
         />
       )}
+      <S.Box>
+        <S.Grid>
+          {weeklyWeather &&
+            weeklyWeather.map((item: WeeklyWeather, index) => (
+              <Card
+                data={item}
+                key={index}
+                onClick={() => onChangeDay(item.day)}
+                selectedDay={selectedDay}
+              />
+            ))}
+        </S.Grid>
+        {dailyWeather && <MainContent dailyWeather={dailyWeather} />}
 
-      <S.VideoBackground ref={videoRef} autoPlay loop muted>
-        <source src={video} type="video/mp4" />
-      </S.VideoBackground>
+        <S.VideoBackground ref={videoRef} autoPlay loop muted>
+          <source src={video} type="video/mp4" />
+        </S.VideoBackground>
+      </S.Box>
     </Container>
   );
 }

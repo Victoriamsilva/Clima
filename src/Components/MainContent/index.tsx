@@ -5,27 +5,25 @@ import Rain from "../../Assets/Icons/rain.svg";
 import Wind from "../../Assets/Icons/wind.svg";
 import Sunrise from "../../Assets/Icons/sunrise.svg";
 import Sunset from "../../Assets/Icons/sunset.svg";
+import Temperature from "../../Assets/Icons/temperature.svg";
 import { Icon } from "../../Styles/globalStyles";
 import { getHour } from "../../Utils/getHour";
 import { getWeatherDetail } from "../../Utils/getWeatherDetail";
 import * as S from "./style";
 interface MainContentProps {
   dailyWeather: DailyWeather;
-  hourlyWeather: HourlyWeather[];
 }
 
-export default function MainContent({
-  dailyWeather,
-  hourlyWeather,
-}: MainContentProps) {
+export default function MainContent({ dailyWeather }: MainContentProps) {
+  const day = new Date(dailyWeather.day).getDate();
   return (
     <S.MainContent>
-      <p>
-        Previsao do dia 0 {new Date(dailyWeather.day).getDate()}
-        {getWeatherDetail(dailyWeather.weatherCode || 0).climate}
-      </p>
+      <p>Previsao do dia {day}</p>
+
+      <p> {getWeatherDetail(dailyWeather.weatherCode).climate}</p>
       <S.Box>
         <Chip title="TEMPERATURA">
+          <Icon src={Temperature} size="30px" />
           <div>
             <BoxTemperature
               minTemperature={dailyWeather.minTemperature}

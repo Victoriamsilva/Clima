@@ -3,29 +3,20 @@ import styled from "styled-components";
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 2px;
+  gap: 20px;
   align-self: end;
   width: 100%;
+
+  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+    gap: 0;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  }
 `;
 
-export const CurrentWheater = styled.div`
-  display: flex;
-  align-items: start;
-  h1 {
-    font-size: ${({ theme }) => theme.fontSize.xxl};
-    font-weight: 400;
-  }
-  span,
-  p {
-    padding-top: ${({ theme }) => theme.padding.s};
-    margin-left: ${({ theme }) => theme.margin.s};
-  }
-  span {
-    font-size: ${({ theme }) => theme.fontSize.xl};
-  }
-  p {
-    font-size: ${({ theme }) => theme.fontSize.s};
-  }
+export const Box = styled.div`
+  flex-grow: 1;
+  overflow: hidden auto;
+  padding: ${({ theme }) => theme.spacing.l + " " + theme.spacing.xl};
 `;
 
 export const VideoBackground = styled.video`
@@ -35,5 +26,5 @@ export const VideoBackground = styled.video`
   bottom: 0;
   min-width: 100%;
   min-height: 100%;
-  max-width: 100vw;
+  /* max-width: 100vw; */
 `;
