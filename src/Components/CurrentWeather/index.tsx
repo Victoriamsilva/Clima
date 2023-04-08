@@ -33,13 +33,15 @@ export default function CurrentWeatherBox({
     <S.CurrentWeatherBox>
       <Input setLocationData={(e) => setLocationData(e)} />
       <S.Content>
-        <p>{hour}</p>
-        <p>Clima atual em Osasco</p>
-        <p>{details.climate}</p>
         <div>
-          <Icon src={details.icon} size="70px" />
-          <h1>{data.temperature}</h1> <span>°C</span>
+          <p>{hour}</p>
+          <p>Clima atual em Osasco</p>
+          <div>
+            <Icon src={details.icon} size="70px" />
+            <h1>{data.temperature}</h1> <span>°C</span>
+          </div>
         </div>
+        <p>{details.climate}</p>
         <p className="wind">
           <Icon src={Wind} size="30px" />
           <span>

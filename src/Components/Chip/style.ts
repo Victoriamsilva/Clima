@@ -5,10 +5,8 @@ export const Box = styled.div`
   justify-content: space-between;
   flex-direction: column;
   height: 80px;
-  max-width: 230px;
   border-left: 3px solid ${({ theme }) => theme.colors.white};
   border-bottom: 3px solid ${({ theme }) => theme.colors.glass};
-
   border-radius: 15px;
   padding: ${({ theme }) => theme.spacing.s};
   div {

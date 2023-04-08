@@ -7,9 +7,13 @@ export const Grid = styled.div`
   align-self: end;
   width: 100%;
 
-  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+  @media screen and (${({ theme }) => theme.devices.mobileXL}) {
     gap: 0;
     grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  }
+
+  @media screen and (${({ theme }) => theme.devices.mobileXXS}) {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
   }
 `;
 

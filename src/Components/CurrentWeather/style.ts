@@ -21,10 +21,11 @@ export const Content = styled.div`
   color: white;
   text-align: center;
   justify-items: center;
-  div {
+  div div {
     display: flex;
     padding-top: ${({ theme }) => theme.spacing.l};
     h1 {
+      align-self: center;
       font-size: ${({ theme }) => theme.fontSize.xxl};
       font-weight: 400;
     }
@@ -36,6 +37,8 @@ export const Content = styled.div`
   }
 
   p {
+    align-self: center;
+
     padding-top: ${({ theme }) => theme.spacing.l};
     font-size: ${({ theme }) => theme.fontSize.m};
   }
@@ -44,13 +47,17 @@ export const Content = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.l};
     display: flex;
     div {
+      display: flex;
+    }
+    div div {
       padding-top: 0;
       h1 {
         font-size: ${({ theme }) => theme.fontSize.s};
         font-weight: 400;
       }
       span {
-        padding-top: ${({ theme }) => theme.spacing.xs};
+        align-self: center;
+        padding-top: ${({ theme }) => theme.spacing.xxs};
         margin-left: ${({ theme }) => theme.spacing.xs};
         font-size: ${({ theme }) => theme.fontSize.xxs};
       }
@@ -67,5 +74,18 @@ export const Content = styled.div`
   }
   .wind {
     display: none;
+  }
+  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+    flex-direction: column;
+  }
+  @media screen and (${({ theme }) => theme.devices.mobileS}) {
+    p,
+    span,
+    div div h1 {
+      font-size: ${({ theme }) => theme.fontSize.xs};
+    }
+    div div span {
+      font-size: ${({ theme }) => theme.fontSize.xxs};
+    }
   }
 `;

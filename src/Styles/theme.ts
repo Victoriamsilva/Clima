@@ -17,11 +17,13 @@ export const theme = {
   },
 
   devices: {
-    mobileXXS: "max-width: 359px",
-    mobileXS: "max-width: 429px",
-    mobileS: "max-width: 500px",
-    mobileM: "max-width: 570px",
-    mobileL: "max-width: 740px",
+    mobileXXXS: "max-width: 259px",
+    mobileXXS: "max-width: 290px",
+    mobileXS: "max-width: 359px",
+    mobileS: "max-width: 429px",
+    mobileM: "max-width: 500px",
+    mobileL: "max-width: 570px",
+    mobileXL: "max-width: 740px",
     tablet: "max-width: 786px",
     tabletL: "max-width: 900px",
     laptop: "max-width: 1024px",
@@ -30,8 +32,9 @@ export const theme = {
   },
 
   spacing: {
+    xxs: "0.03rem",
     xs: "0.143rem",
-    s: "0.5rem",
+    s: "0.7rem",
     m: "0.714rem",
     l: "2rem",
     xl: "2.5rem",

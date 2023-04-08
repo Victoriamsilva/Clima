@@ -5,8 +5,7 @@ interface CardProps {
 }
 
 export const Card = styled.div<CardProps>`
-  /* height: 100px; */
-  max-width: 200px;
+  width: 100%;
   background: ${({ selectedDay, theme }) =>
     selectedDay ? theme.colors.glassSelected : theme.colors.glass};
   border: 1px solid ${({ theme }) => theme.border.white};
@@ -30,9 +29,8 @@ export const Card = styled.div<CardProps>`
   h4::first-letter {
     text-transform: capitalize;
   }
-  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+  @media screen and (${({ theme }) => theme.devices.mobileXL}) {
     border-radius: 0;
-    max-width: 92px;
     h4 {
       margin: 0;
     }
@@ -48,7 +46,7 @@ export const Card = styled.div<CardProps>`
     }
   }
 
-  @media screen and (${({ theme }) => theme.devices.mobileM}) {
+  @media screen and (${({ theme }) => theme.devices.mobileL}) {
     &:first-of-type {
       border-radius: 12px 0 0 0;
     }
@@ -62,7 +60,7 @@ export const Card = styled.div<CardProps>`
     }
   }
 
-  @media screen and (${({ theme }) => theme.devices.mobileS}) {
+  @media screen and (${({ theme }) => theme.devices.mobileM}) {
     &:nth-of-type(5) {
       border-radius: 0 12px 12px 0;
     }
@@ -76,7 +74,7 @@ export const Card = styled.div<CardProps>`
     }
   }
 
-  @media screen and (${({ theme }) => theme.devices.mobileXS}) {
+  @media screen and (${({ theme }) => theme.devices.mobileS}) {
     &:nth-of-type(4) {
       border-radius: 0 12px 12px 0;
     }
@@ -90,7 +88,7 @@ export const Card = styled.div<CardProps>`
     }
   }
 
-  @media screen and (${({ theme }) => theme.devices.mobileXXS}) {
+  @media screen and (${({ theme }) => theme.devices.mobileXS}) {
     &:nth-of-type(3) {
       border-radius: 0 12px 0 0;
     }
@@ -107,6 +105,15 @@ export const Card = styled.div<CardProps>`
       border-radius: 0 0 12px 12px;
     }
   }
+
+  @media screen and (${({ theme }) => theme.devices.mobileXXXS}) {
+    &:nth-of-type(2) {
+      border-radius: 0 12px 0 0;
+    }
+    &:nth-of-type(3) {
+      border-radius: 0;
+    }
+  }
 `;
 
 export const Box = styled.div`
@@ -114,7 +121,7 @@ export const Box = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+  @media screen and (${({ theme }) => theme.devices.mobileXL}) {
     display: none;
   }
 `;

@@ -25,4 +25,8 @@ export const Box = styled.div`
   gap: 10px;
   width: 100%;
   align-self: center;
+
+  @media screen and (${({ theme }) => theme.devices.mobileL}) {
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  }
 `;

@@ -58,7 +58,7 @@ export default function Input({ setLocationData }: InputProps) {
       />
       <S.Input
         id="search"
-        isSearching={isSearching}
+        hasResult={results.length ? true : false}
         type="text"
         placeholder="Pesquisar por cidade . . ."
         value={searchTerm}
@@ -90,7 +90,6 @@ export default function Input({ setLocationData }: InputProps) {
                 onClick={() => handleClickAutoComplete(lineString, value)}
               >
                 <span>{lineString}</span>
-                <span></span>
               </div>
             );
           })}
