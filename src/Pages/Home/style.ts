@@ -21,6 +21,11 @@ export const Box = styled.div`
   flex-grow: 1;
   overflow: hidden auto;
   padding: ${({ theme }) => theme.spacing.l + " " + theme.spacing.xl};
+  h3 {
+    font-size: ${({ theme }) => theme.fontSize.xl};
+    font-weight: 400;
+    margin-bottom: ${({ theme }) => theme.spacing.m};
+  }
 `;
 
 export const VideoBackground = styled.video`
@@ -30,5 +35,5 @@ export const VideoBackground = styled.video`
   bottom: 0;
   min-width: 100%;
   min-height: 100%;
-  /* max-width: 100vw; */
+  max-width: 100vw;
 `;

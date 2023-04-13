@@ -61,18 +61,17 @@ export function formatHourlyWeather(data: any): HourlyWeather[] {
 export function formatLocation(data: any) {
   let dataFormatted: ILocation[] = [];
   data?.forEach((location: any) => {
-    location.admin2 &&
-      dataFormatted.push({
-        country: location?.country,
-        locationName1: location?.admin2,
-        locationName2: location?.admin1,
-        locationName3: location?.admin3,
-        locationName4: location?.admin4,
-        latitude: location?.latitude,
-        longitude: location?.longitude,
-        timezone: location?.timezone,
-        contryCode: location?.country_code,
-      });
+    dataFormatted.push({
+      country: location?.country,
+      locationName1: location?.admin2,
+      locationName2: location?.admin1,
+      locationName3: location?.admin3,
+      locationName4: location?.admin4,
+      latitude: location?.latitude,
+      longitude: location?.longitude,
+      timezone: location?.timezone,
+      contryCode: location?.country_code,
+    });
   });
   return dataFormatted;
 }

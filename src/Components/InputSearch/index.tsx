@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import * as S from "./style";
 import { useDebounce } from "../../Utils/useDebounce";
 import { getLocations } from "../../Services/geoCoding";
@@ -7,12 +7,11 @@ import { ILocation } from "../../Entities/location";
 import { Icon } from "../../Styles/globalStyles";
 import Search from "../../Assets/Icons/search.svg";
 import Loading from "../../Assets/Icons/loading.svg";
+import ClimateContext from "../../Context/context";
 
-interface InputProps {
-  setLocationData: (location: any) => void;
-}
-
-export default function Input({ setLocationData }: InputProps) {
+export default function Input() {
+  const { setSelectedDay, weeklyWeather, setLocationData } =
+    useContext(ClimateContext);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [results, setResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -22,9 +21,10 @@ export default function Input({ setLocationData }: InputProps) {
     setSearchTerm(event.target.value);
   };
 
-  function handleClickAutoComplete(value: string, location: ILocation) {
+  function handleClickAutoComplete(location: ILocation) {
     setLocationData(location);
-    setSearchTerm(value);
+    setSearchTerm("");
+    setSelectedDay("");
   }
 
   useEffect(() => {
@@ -67,29 +67,25 @@ export default function Input({ setLocationData }: InputProps) {
       {results?.length ? (
         <S.List>
           {results.slice(0, 5).map((value: ILocation, index) => {
-            const lineString = `${
-              value.locationName4 !== undefined
-                ? value.locationName4 + ", "
-                : ""
-            } ${
-              value.locationName3 !== undefined
-                ? value.locationName3 + ", "
-                : ""
-            } ${
-              value.locationName1 !== undefined
-                ? value.locationName1 + ", "
-                : ""
-            } ${
-              value.locationName2 !== undefined
-                ? value.locationName2 + ", "
-                : ""
-            } ${value.contryCode}`;
             return (
-              <div
-                key={index}
-                onClick={() => handleClickAutoComplete(lineString, value)}
-              >
-                <span>{lineString}</span>
+              <div key={index} onClick={() => handleClickAutoComplete(value)}>
+                <span>{`${
+                  value.locationName4 !== undefined
+                    ? value.locationName4 + ", "
+                    : ""
+                } ${
+                  value.locationName3 !== undefined
+                    ? value.locationName3 + ", "
+                    : ""
+                } ${
+                  value.locationName1 !== undefined
+                    ? value.locationName1 + ", "
+                    : ""
+                } ${
+                  value.locationName2 !== undefined
+                    ? value.locationName2 + ", "
+                    : ""
+                } ${value.contryCode}`}</span>
               </div>
             );
           })}

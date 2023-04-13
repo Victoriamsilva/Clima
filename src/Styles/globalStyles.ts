@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   max-height: 100vh;
   min-height: 100vh;
-
+  color: ${({ theme }) => theme.colors.white};
   @media screen and (${({ theme }) => theme.devices.tablet}) {
     flex-direction: column;
   }

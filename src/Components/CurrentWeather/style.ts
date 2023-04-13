@@ -24,6 +24,7 @@ export const Content = styled.div`
   div div {
     display: flex;
     padding-top: ${({ theme }) => theme.spacing.l};
+    justify-content: center;
     h1 {
       align-self: center;
       font-size: ${({ theme }) => theme.fontSize.xxl};
@@ -71,9 +72,6 @@ export const Content = styled.div`
     img {
       width: 20px;
     }
-  }
-  .wind {
-    display: none;
   }
   @media screen and (${({ theme }) => theme.devices.mobileL}) {
     flex-direction: column;

@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import Input from "../../Components/Input";
+import { useState, useEffect, useRef, useContext } from "react";
+import Input from "../../Components/InputSearch";
 import MainContent from "../../Components/MainContent";
 import { CurrentWeather } from "../../Entities/currentWeather";
 import {
@@ -25,6 +25,8 @@ import {
 } from "../../Utils/formatObjects";
 import CurrentWeatherBox from "../../Components/CurrentWeather";
 import { itens } from "../itens";
+import ClimateContext from "../../Context/context";
+import { getWeatherDetail } from "../../Utils/getWeatherDetail";
 export interface ILocation {
   name?: string;
   latitude: number;
@@ -34,28 +36,30 @@ export interface ILocation {
 
 export default function Home() {
   const [video, setVideo] = useState<any>(undefined);
-  const [currentWeather, setCurrentWeather] = useState<CurrentWeather | null>(
-    null,
-  );
-  const [dailyWeather, setDailyWeather] = useState<DailyWeather | null>(null);
-  const [weeklyWeather, setWeeklyWeather] = useState<WeeklyWeather[] | null>(
-    null,
-  );
-  const [hourlyWeather, setHourlyWeather] = useState<HourlyWeather[] | null>(
-    null,
-  );
-  const [selectedDay, setSelectedDay] = useState("");
-  const [locationData, setLocationData] = useState<ILocation | null>(null);
-
+  const {
+    currentWeather,
+    dailyWeather,
+    locationData,
+    setCurrentWeather,
+    setDailyWeather,
+    setLocationData,
+    setWeeklyWeather,
+    weeklyWeather,
+    selectedDay,
+    setSelectedDay,
+  } = useContext(ClimateContext);
   async function getCurrentWeatherData() {
-    if (locationData) {
+    if (locationData.latitude !== undefined) {
       const data = await getCurrentWeather(locationData);
-      setCurrentWeather(data);
+      setCurrentWeather({
+        ...data,
+        details: getWeatherDetail(data.weathercode),
+      });
     }
   }
 
   async function getWeeklyWeatherData() {
-    if (locationData) {
+    if (locationData.latitude !== undefined) {
       const data = await getWeeklyWeather(locationData);
       const dataFormatted = formatWeeklyWeather(data);
       setWeeklyWeather(dataFormatted);
@@ -63,12 +67,10 @@ export default function Home() {
   }
 
   async function getDailyWeatherData(day: string) {
-    if (locationData) {
+    if (locationData.latitude !== undefined) {
       const data = await getDailyWeather(day, locationData);
       const dataDailyFormatted = formatDailyWeather(data);
-      // const dataHourlyFormatted = formatHourlyWeather(data.hourly);
       setDailyWeather(dataDailyFormatted);
-      // setHourlyWeather(dataHourlyFormatted);
     }
   }
 
@@ -94,21 +96,22 @@ export default function Home() {
   useEffect(() => {
     getLocationData();
   }, []);
+
   useEffect(() => {
     getCurrentWeatherData();
     getWeeklyWeatherData();
-    console.log(locationData);
   }, [locationData]);
 
   useEffect(() => {
+    console.log("oi");
     setVideo(
       getVideoBackground(
-        (selectedDay !== null
+        (selectedDay !== ""
           ? dailyWeather?.weatherCode
           : currentWeather?.weathercode) || 1,
       ),
     );
-  }, [dailyWeather]);
+  }, [dailyWeather.weatherCode, currentWeather.weathercode]);
 
   const videoRef = useRef(video);
   const previousUrl = useRef(video);
@@ -125,15 +128,11 @@ export default function Home() {
 
   return (
     <Container>
-      {currentWeather && (
-        <CurrentWeatherBox
-          data={currentWeather}
-          setLocationData={(e) => setLocationData(e)}
-        />
-      )}
+      {currentWeather.temperature && <CurrentWeatherBox />}
       <S.Box>
+        <h3>Previsão da semana</h3>
         <S.Grid>
-          {weeklyWeather &&
+          {weeklyWeather.length &&
             weeklyWeather.map((item: WeeklyWeather, index) => (
               <Card
                 data={item}
@@ -143,7 +142,7 @@ export default function Home() {
               />
             ))}
         </S.Grid>
-        {dailyWeather && <MainContent dailyWeather={dailyWeather} />}
+        {dailyWeather.day && selectedDay && <MainContent />}
 
         <S.VideoBackground ref={videoRef} autoPlay loop muted>
           <source src={video} type="video/mp4" />

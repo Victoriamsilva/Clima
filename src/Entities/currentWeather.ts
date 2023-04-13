@@ -3,5 +3,9 @@ export interface CurrentWeather {
   time: string;
   weathercode: number;
   winddirection: number;
-  windspeed: number;
+  windSpeed: number;
+  details?: {
+    climate: string;
+    icon: string;
+  };
 }

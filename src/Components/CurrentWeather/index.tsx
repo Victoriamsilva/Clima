@@ -1,23 +1,11 @@
-import { useEffect, useState } from "react";
-import { DailyWeather, WeeklyWeather } from "../../Entities/dailyWeather";
-import BoxTemperature from "../BoxTemperature";
+import { useContext, useState } from "react";
 import { Icon } from "../../Styles/globalStyles";
-import { getWeatherDetail } from "../../Utils/getWeatherDetail";
+import Input from "../InputSearch";
+import ClimateContext from "../../Context/context";
 import * as S from "./style";
-import { CurrentWeather } from "../../Entities/currentWeather";
-import Input from "../Input";
-import Wind from "../../Assets/Icons/wind.svg";
 
-interface CurrentWeatherProps {
-  data: CurrentWeather;
-  setLocationData: (location: any) => void;
-}
-
-export default function CurrentWeatherBox({
-  data,
-  setLocationData,
-}: CurrentWeatherProps) {
-  const details = getWeatherDetail(data.weathercode);
+export default function CurrentWeatherBox() {
+  const { currentWeather } = useContext(ClimateContext);
   const [hour, setHour] = useState("");
   function getHour() {
     const date = new Date();
@@ -31,24 +19,23 @@ export default function CurrentWeatherBox({
   }, 1000);
   return (
     <S.CurrentWeatherBox>
-      <Input setLocationData={(e) => setLocationData(e)} />
+      <Input />
       <S.Content>
-        <div>
-          <p>{hour}</p>
-          <p>Clima atual em Osasco</p>
-          <div>
-            <Icon src={details.icon} size="70px" />
-            <h1>{data.temperature}</h1> <span>°C</span>
-          </div>
-        </div>
-        <p>{details.climate}</p>
-        <p className="wind">
-          <Icon src={Wind} size="30px" />
-          <span>
-            {data.windspeed &&
-              data.windspeed + "km/h" + "-" + data.winddirection + "°"}
-          </span>
-        </p>
+        {currentWeather && (
+          <>
+            <div>
+              <p>{hour}</p>
+              <p>Clima atual em Osasco</p>
+              <div>
+                {currentWeather.details?.icon !== undefined && (
+                  <Icon src={currentWeather.details.icon} size="50px" />
+                )}
+                <h1>{currentWeather.temperature}</h1> <span>°C</span>
+              </div>
+            </div>
+            <p>{currentWeather.details?.climate}</p>
+          </>
+        )}
       </S.Content>
     </S.CurrentWeatherBox>
   );

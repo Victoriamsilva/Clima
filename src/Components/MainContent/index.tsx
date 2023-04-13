@@ -10,15 +10,21 @@ import { Icon } from "../../Styles/globalStyles";
 import { getHour } from "../../Utils/getHour";
 import { getWeatherDetail } from "../../Utils/getWeatherDetail";
 import * as S from "./style";
-interface MainContentProps {
-  dailyWeather: DailyWeather;
-}
+import { useContext } from "react";
+import ClimateContext from "../../Context/context";
 
-export default function MainContent({ dailyWeather }: MainContentProps) {
+export default function MainContent() {
+  const { locationData, dailyWeather } = useContext(ClimateContext);
   const day = new Date(dailyWeather.day).getDate();
   return (
     <S.MainContent>
-      <p>Previsao do dia {day}</p>
+      <p>
+        Previsao do dia {day} em{" "}
+        {locationData.locationName4 ||
+          locationData.locationName3 ||
+          locationData.locationName2 ||
+          locationData.locationName1}
+      </p>
 
       <p> {getWeatherDetail(dailyWeather.weatherCode).climate}</p>
       <S.Box>
