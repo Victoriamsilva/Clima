@@ -71,6 +71,11 @@ export function formatLocation(data: any) {
       longitude: location?.longitude,
       timezone: location?.timezone,
       contryCode: location?.country_code,
+      name:
+        location.admin2 ||
+        location.admin1 ||
+        location.admin3 ||
+        location.admin4,
     });
   });
   return dataFormatted;

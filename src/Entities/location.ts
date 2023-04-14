@@ -8,4 +8,6 @@ export interface ILocation {
   longitude: number;
   timezone: string;
   contryCode?: string;
+  hasLocationName?: boolean;
+  name?: string;
 }

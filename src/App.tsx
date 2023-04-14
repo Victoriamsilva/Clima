@@ -1,8 +1,9 @@
 import { ThemeProvider } from "styled-components";
 import Routes from "./Routes/router";
-import { Container, GlobalStyles } from "./Styles/globalStyles";
+import { GlobalStyles } from "./Styles/globalStyles";
 import { theme } from "./Styles/theme";
 import ClimateProvider from "./Context/provider";
+import "./Languages/index";
 
 function App() {
   return (

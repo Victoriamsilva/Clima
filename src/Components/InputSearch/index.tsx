@@ -8,10 +8,11 @@ import { Icon } from "../../Styles/globalStyles";
 import Search from "../../Assets/Icons/search.svg";
 import Loading from "../../Assets/Icons/loading.svg";
 import ClimateContext from "../../Context/context";
+import { useTranslation } from "react-i18next";
 
 export default function Input() {
-  const { setSelectedDay, weeklyWeather, setLocationData } =
-    useContext(ClimateContext);
+  const { setSelectedDay, setLocationData } = useContext(ClimateContext);
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [results, setResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -22,7 +23,10 @@ export default function Input() {
   };
 
   function handleClickAutoComplete(location: ILocation) {
-    setLocationData(location);
+    setLocationData({
+      ...location,
+      hasLocationName: true,
+    });
     setSearchTerm("");
     setSelectedDay("");
   }
@@ -60,7 +64,7 @@ export default function Input() {
         id="search"
         hasResult={results.length ? true : false}
         type="text"
-        placeholder="Pesquisar por cidade . . ."
+        placeholder={t("searchPlaceholder")}
         value={searchTerm}
         onChange={handleFilter}
       />

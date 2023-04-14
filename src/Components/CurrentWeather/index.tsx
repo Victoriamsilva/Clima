@@ -3,9 +3,10 @@ import { Icon } from "../../Styles/globalStyles";
 import Input from "../InputSearch";
 import ClimateContext from "../../Context/context";
 import * as S from "./style";
+import { useTranslation } from "react-i18next";
 
 export default function CurrentWeatherBox() {
-  const { currentWeather } = useContext(ClimateContext);
+  const { currentWeather, locationData } = useContext(ClimateContext);
   const [hour, setHour] = useState("");
   function getHour() {
     const date = new Date();
@@ -17,6 +18,7 @@ export default function CurrentWeatherBox() {
   setInterval(() => {
     getHour();
   }, 1000);
+  const { t } = useTranslation();
   return (
     <S.CurrentWeatherBox>
       <Input />
@@ -25,7 +27,12 @@ export default function CurrentWeatherBox() {
           <>
             <div>
               <p>{hour}</p>
-              <p>Clima atual em Osasco</p>
+              <p>
+                {t("currentWeatherTitle")}{" "}
+                {locationData.hasLocationName
+                  ? `${t("in")} ${locationData.name}`
+                  : t("subtitle")}
+              </p>
               <div>
                 {currentWeather.details?.icon !== undefined && (
                   <Icon src={currentWeather.details.icon} size="50px" />

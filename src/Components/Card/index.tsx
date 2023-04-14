@@ -3,7 +3,7 @@ import { DailyWeather, WeeklyWeather } from "../../Entities/dailyWeather";
 import BoxTemperature from "../BoxTemperature";
 import * as S from "./style";
 import { Icon } from "../../Styles/globalStyles";
-import { getWeatherDetail } from "../../Utils/getWeatherDetail";
+import { getWeatherIcon } from "../../Utils/getWeatherIcon";
 
 interface CardProps {
   data: WeeklyWeather;
@@ -13,9 +13,12 @@ interface CardProps {
 
 export default function Card({ data, onClick, selectedDay }: CardProps) {
   function getWeekDayName(date: string) {
-    return new Date(date.concat("T00:00:00")).toLocaleDateString("pt-BR", {
-      weekday: "short",
-    });
+    return new Date(date.concat("T00:00:00")).toLocaleDateString(
+      navigator.language,
+      {
+        weekday: "short",
+      },
+    );
   }
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export default function Card({ data, onClick, selectedDay }: CardProps) {
   return (
     <S.Card onClick={() => onClick()} selectedDay={selectedDay === data.day}>
       <h4>{getWeekDayName(data.day)}</h4>
-      <Icon src={getWeatherDetail(data.weatherCode).icon} />
+      <Icon src={getWeatherIcon(data.weatherCode)} />
       <S.Box>
         <BoxTemperature
           minTemperature={data.minTemperature}

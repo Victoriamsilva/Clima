@@ -1,12 +1,6 @@
 import { useState, useEffect, useRef, useContext } from "react";
-import Input from "../../Components/InputSearch";
 import MainContent from "../../Components/MainContent";
-import { CurrentWeather } from "../../Entities/currentWeather";
-import {
-  DailyWeather,
-  HourlyWeather,
-  WeeklyWeather,
-} from "../../Entities/dailyWeather";
+import { WeeklyWeather } from "../../Entities/dailyWeather";
 import { Container } from "../../Styles/globalStyles";
 import Card from "../../Components/Card";
 import * as S from "./style";
@@ -16,17 +10,15 @@ import {
   getDailyWeather,
   getWeeklyWeather,
 } from "../../Services/weather";
-import { getHour } from "../../Utils/getHour";
 import { getVideoBackground } from "../../Utils/getVideoBackground";
 import {
   formatDailyWeather,
-  formatHourlyWeather,
   formatWeeklyWeather,
 } from "../../Utils/formatObjects";
 import CurrentWeatherBox from "../../Components/CurrentWeather";
-import { itens } from "../itens";
 import ClimateContext from "../../Context/context";
-import { getWeatherDetail } from "../../Utils/getWeatherDetail";
+import { getWeatherIcon } from "../../Utils/getWeatherIcon";
+import { useTranslation } from "react-i18next";
 export interface ILocation {
   name?: string;
   latitude: number;
@@ -48,12 +40,17 @@ export default function Home() {
     selectedDay,
     setSelectedDay,
   } = useContext(ClimateContext);
+  const { t } = useTranslation();
+
   async function getCurrentWeatherData() {
     if (locationData.latitude !== undefined) {
       const data = await getCurrentWeather(locationData);
       setCurrentWeather({
         ...data,
-        details: getWeatherDetail(data.weathercode),
+        details: {
+          icon: getWeatherIcon(data.weathercode),
+          climate: t(`weatherDetail.${data.weathercode}`),
+        },
       });
     }
   }
@@ -103,7 +100,6 @@ export default function Home() {
   }, [locationData]);
 
   useEffect(() => {
-    console.log("oi");
     setVideo(
       getVideoBackground(
         (selectedDay !== ""
@@ -130,9 +126,14 @@ export default function Home() {
     <Container>
       {currentWeather.temperature && <CurrentWeatherBox />}
       <S.Box>
-        <h3>Previsão da semana</h3>
+        <h3>
+          {t("homeTitle")}{" "}
+          {locationData.hasLocationName
+            ? `${t("in")} ${locationData.name}`
+            : t("subtitle")}
+        </h3>
         <S.Grid>
-          {weeklyWeather.length &&
+          {weeklyWeather.length > 0 &&
             weeklyWeather.map((item: WeeklyWeather, index) => (
               <Card
                 data={item}
