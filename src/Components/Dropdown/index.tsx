@@ -6,9 +6,12 @@ import Brazil from "../../Assets/Icons/brazil.svg";
 import World from "../../Assets/Icons/world.svg";
 import Arrow from "../../Assets/Icons/arrow.svg";
 import * as S from "./style";
+import { useTranslation } from "react-i18next";
+import i18n from "../../Languages";
 
 export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
   const dropdownRef: any = useRef();
 
   const changeLanguage = (language: string) => {
@@ -25,6 +28,10 @@ export default function Dropdown() {
   useEffect(() => {
     document.addEventListener("mousedown", clickOutside);
   }, []);
+
+  useEffect(() => {
+    document.title = t("titlePage");
+  }, [i18n.language]);
 
   return (
     <S.Dropdown
