@@ -17,7 +17,7 @@ export async function getDailyWeather(
   location: ILocation,
 ): Promise<DailyWeather> {
   const { data } = await api.get(
-    `?latitude=${location.latitude}&longitude=${location.latitude}&timezone=${location.timezone}&daily=temperature_2m_max,temperature_2m_min,weathercode,apparent_temperature_max,apparent_temperature_min,uv_index_max,precipitation_probability_max,precipitation_probability_min,precipitation_probability_mean,sunrise,sunset,windspeed_10m_max,winddirection_10m_dominant&hourly=temperature_2m,relativehumidity_2m,rain,showers,weathercode,cloudcover,visibility,uv_index&forecast_days=1&start_date=${date}&end_date=${date}&weather_code=true`,
+    `?latitude=${location.latitude}&longitude=${location.latitude}&timezone=${location.timezone}&daily=temperature_2m_max,temperature_2m_min,weathercode,apparent_temperature_max,apparent_temperature_min,uv_index_max,precipitation_probability_max,precipitation_probability_min,precipitation_probability_mean,sunrise,sunset,windspeed_10m_max,winddirection_10m_dominant&forecast_days=1&start_date=${date}&end_date=${date}&weather_code=true`,
   );
   return data.daily;
 }

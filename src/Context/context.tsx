@@ -2,12 +2,11 @@ import { createContext } from "react";
 import { CurrentWeather } from "../Entities/currentWeather";
 import { DailyWeather, WeeklyWeather } from "../Entities/dailyWeather";
 import { ILocation } from "../Entities/location";
-import { current, daily, locationData, weekly } from "./objects";
 
 const ClimateContext = createContext({
   currentWeather: {} as CurrentWeather,
   dailyWeather: {} as DailyWeather,
-  weeklyWeather: weekly,
+  weeklyWeather: {} as WeeklyWeather[],
   locationData: {} as ILocation,
   selectedDay: "",
   setSelectedDay: (day: string) => {},

@@ -14,5 +14,3 @@ export interface DailyWeather extends WeeklyWeather {
   windSpeed: number;
   windDirection: string;
 }
-
-export interface HourlyWeather {}

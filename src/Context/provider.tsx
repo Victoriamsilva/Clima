@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import Context from "./context";
 import { CurrentWeather } from "../Entities/currentWeather";
-import {
-  DailyWeather,
-  WeeklyWeather,
-  HourlyWeather,
-} from "../Entities/dailyWeather";
+import { DailyWeather, WeeklyWeather } from "../Entities/dailyWeather";
 import { ILocation } from "../Entities/location";
 
 export default function ClimateProvider({

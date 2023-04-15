@@ -11,6 +11,14 @@ export const Box = styled.div<{ isSearching?: boolean }>`
       isSearching ? "spinner .6s linear infinite" : "none"};
   }
 
+  animation: tam 0.5s linear forwards;
+  animation-delay: 0.3s;
+  transform: translateY(-20px);
+  z-index: 1;
+  opacity: 0;
+  /* -webkit-animation-fill-mode: initial;
+    animation-fill-mode: initial; */
+
   @keyframes spinner {
     to {
       transform: rotate(360deg);

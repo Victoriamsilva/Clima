@@ -1,24 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Icon } from "../../Styles/globalStyles";
 import Input from "../InputSearch";
 import ClimateContext from "../../Context/context";
-import * as S from "./style";
 import { useTranslation } from "react-i18next";
+import * as S from "./style";
 
 export default function CurrentWeatherBox() {
+  const { t } = useTranslation();
   const { currentWeather, locationData } = useContext(ClimateContext);
   const [hour, setHour] = useState("");
-  function getHour() {
-    const date = new Date();
-    const hour = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    setHour(`${hour}:${minutes}:${seconds}`);
-  }
-  setInterval(() => {
-    getHour();
-  }, 1000);
-  const { t } = useTranslation();
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setHour(new Date().toLocaleTimeString());
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <S.CurrentWeatherBox>
       <Input />
@@ -33,6 +31,7 @@ export default function CurrentWeatherBox() {
                   ? `${t("in")} ${locationData.name}`
                   : t("subtitle")}
               </p>
+              <p>{currentWeather.details?.climate}</p>
               <div>
                 {currentWeather.details?.icon !== undefined && (
                   <Icon src={currentWeather.details.icon} size="50px" />
@@ -40,7 +39,6 @@ export default function CurrentWeatherBox() {
                 <h1>{currentWeather.temperature}</h1> <span>°C</span>
               </div>
             </div>
-            <p>{currentWeather.details?.climate}</p>
           </>
         )}
       </S.Content>

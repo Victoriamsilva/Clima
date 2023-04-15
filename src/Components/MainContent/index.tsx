@@ -7,17 +7,17 @@ import Sunset from "../../Assets/Icons/sunset.svg";
 import Temperature from "../../Assets/Icons/temperature.svg";
 import { Icon } from "../../Styles/globalStyles";
 import { getHour } from "../../Utils/getHour";
-import * as S from "./style";
 import { useContext } from "react";
 import ClimateContext from "../../Context/context";
 import { useTranslation } from "react-i18next";
+import * as S from "./style";
 
 export default function MainContent() {
+  const { t } = useTranslation();
   const { locationData, dailyWeather } = useContext(ClimateContext);
   const day = new Date(dailyWeather.day).getDate();
-  const { t } = useTranslation();
   return (
-    <S.MainContent>
+    <S.MainContent id="main-content">
       <p>
         {`${t("mainContentTitle")} ${day} `}
         {locationData.hasLocationName
@@ -35,17 +35,13 @@ export default function MainContent() {
             />
           </div>
         </Chip>
-        <Chip title={t("sunrise")}>
-          <Icon src={Sunrise} />
-          {getHour(
-            dailyWeather.sunrise != undefined ? dailyWeather.sunrise : "",
-          ) + "h"}
-        </Chip>
-        <Chip title={t("sunset")}>
-          <Icon src={Sunset} />
-          {getHour(
-            dailyWeather.sunset != undefined ? dailyWeather.sunset : "",
-          ) + "h"}
+        <Chip title={t("feelsLike")}>
+          <div>
+            <BoxTemperature
+              minTemperature={dailyWeather.apparentMinTemperature}
+              maxTemperature={dailyWeather.apparentMaxTemperature}
+            />
+          </div>
         </Chip>
         <Chip title={t("rain")}>
           <Icon src={Rain} size="30px" />
@@ -60,13 +56,17 @@ export default function MainContent() {
               dailyWeather.windDirection +
               "°"}
         </Chip>
-        <Chip title={t("feelsLike")}>
-          <div>
-            <BoxTemperature
-              minTemperature={dailyWeather.apparentMinTemperature}
-              maxTemperature={dailyWeather.apparentMaxTemperature}
-            />
-          </div>
+        <Chip title={t("sunrise")}>
+          <Icon src={Sunrise} />
+          {getHour(
+            dailyWeather.sunrise != undefined ? dailyWeather.sunrise : "",
+          ) + "h"}
+        </Chip>
+        <Chip title={t("sunset")}>
+          <Icon src={Sunset} />
+          {getHour(
+            dailyWeather.sunset != undefined ? dailyWeather.sunset : "",
+          ) + "h"}
         </Chip>
       </S.Box>
     </S.MainContent>

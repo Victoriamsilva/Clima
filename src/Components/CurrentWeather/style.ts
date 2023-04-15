@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
 export const CurrentWeatherBox = styled.div`
-  top: 0;
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 300px;
   border-right: 1px solid ${({ theme }) => theme.border.white};
-
   padding: ${({ theme }) => theme.spacing.l + " " + theme.spacing.xl};
+
   @media screen and (${({ theme }) => theme.devices.tablet}) {
     width: 100%;
     flex-direction: column-reverse;
@@ -21,6 +20,10 @@ export const Content = styled.div`
   color: white;
   text-align: center;
   justify-items: center;
+  animation: tam 0.5s linear forwards;
+  animation-delay: 0.9s;
+  transform: translateY(-20px);
+  opacity: 0;
   div div {
     display: flex;
     padding-top: ${({ theme }) => theme.spacing.l};

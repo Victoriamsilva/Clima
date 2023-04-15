@@ -3,8 +3,6 @@ import MainContent from "../../Components/MainContent";
 import { WeeklyWeather } from "../../Entities/dailyWeather";
 import { Container } from "../../Styles/globalStyles";
 import Card from "../../Components/Card";
-import * as S from "./style";
-
 import {
   getCurrentWeather,
   getDailyWeather,
@@ -19,6 +17,9 @@ import CurrentWeatherBox from "../../Components/CurrentWeather";
 import ClimateContext from "../../Context/context";
 import { getWeatherIcon } from "../../Utils/getWeatherIcon";
 import { useTranslation } from "react-i18next";
+import Dropdown from "../../Components/Dropdown";
+import * as S from "./style";
+
 export interface ILocation {
   name?: string;
   latitude: number;
@@ -27,6 +28,7 @@ export interface ILocation {
 }
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const [video, setVideo] = useState<any>(undefined);
   const {
     currentWeather,
@@ -91,6 +93,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    setLoading(true);
     getLocationData();
   }, []);
 
@@ -122,33 +125,49 @@ export default function Home() {
     previousUrl.current = video;
   }, [video]);
 
+  useEffect(() => {
+    if (weeklyWeather.length > 0 && currentWeather.temperature && video) {
+      setLoading(false);
+    }
+  }, [dailyWeather, weeklyWeather]);
+
+  useEffect(() => {
+    if (dailyWeather.day) {
+      document.getElementById("main-content")?.scrollIntoView();
+    }
+  }, [dailyWeather.day]);
+
   return (
     <Container>
-      {currentWeather.temperature && <CurrentWeatherBox />}
-      <S.Box>
-        <h3>
-          {t("homeTitle")}{" "}
-          {locationData.hasLocationName
-            ? `${t("in")} ${locationData.name}`
-            : t("subtitle")}
-        </h3>
-        <S.Grid>
-          {weeklyWeather.length > 0 &&
-            weeklyWeather.map((item: WeeklyWeather, index) => (
-              <Card
-                data={item}
-                key={index}
-                onClick={() => onChangeDay(item.day)}
-                selectedDay={selectedDay}
-              />
-            ))}
-        </S.Grid>
-        {dailyWeather.day && selectedDay && <MainContent />}
-
-        <S.VideoBackground ref={videoRef} autoPlay loop muted>
-          <source src={video} type="video/mp4" />
-        </S.VideoBackground>
-      </S.Box>
+      <Dropdown />
+      {loading ? null : (
+        <>
+          <CurrentWeatherBox />
+          <S.Box>
+            <h3>
+              {t("homeTitle")}{" "}
+              {locationData.hasLocationName
+                ? `${t("in")} ${locationData.name}`
+                : t("subtitle")}
+            </h3>
+            <S.Grid>
+              {weeklyWeather.length > 0 &&
+                weeklyWeather.map((item: WeeklyWeather, index) => (
+                  <Card
+                    data={item}
+                    key={index}
+                    onClick={() => onChangeDay(item.day)}
+                    selectedDay={selectedDay}
+                  />
+                ))}
+            </S.Grid>
+            {dailyWeather.day && selectedDay && <MainContent />}
+          </S.Box>
+        </>
+      )}
+      <S.VideoBackground ref={videoRef} autoPlay loop muted>
+        <source src={video} type="video/mp4" />
+      </S.VideoBackground>
     </Container>
   );
 }

@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import * as S from "./style";
+import { useState, useEffect, useContext } from "react";
 import { useDebounce } from "../../Utils/useDebounce";
 import { getLocations } from "../../Services/geoCoding";
 import { formatLocation } from "../../Utils/formatObjects";
@@ -9,10 +8,11 @@ import Search from "../../Assets/Icons/search.svg";
 import Loading from "../../Assets/Icons/loading.svg";
 import ClimateContext from "../../Context/context";
 import { useTranslation } from "react-i18next";
+import * as S from "./style";
 
 export default function Input() {
-  const { setSelectedDay, setLocationData } = useContext(ClimateContext);
   const { t } = useTranslation();
+  const { setSelectedDay, setLocationData } = useContext(ClimateContext);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [results, setResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -67,6 +67,7 @@ export default function Input() {
         placeholder={t("searchPlaceholder")}
         value={searchTerm}
         onChange={handleFilter}
+        autoComplete="off"
       />
       {results?.length ? (
         <S.List>

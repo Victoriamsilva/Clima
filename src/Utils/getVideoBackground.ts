@@ -5,6 +5,7 @@ import Rain from "../Assets/Video/rain.mp4";
 import Snow from "../Assets/Video/snow.mp4";
 import PartlyCloudy from "../Assets/Video/partilyCloudy.mp4";
 import Storm from "../Assets/Video/storm.mp4";
+import HeavyRain from "../Assets/Video/heavyRain.mp4";
 
 export function getVideoBackground(weatherCode: number) {
   if (weatherCode === 0 || weatherCode === 1) {
@@ -15,13 +16,10 @@ export function getVideoBackground(weatherCode: number) {
     return Cloudy;
   } else if (weatherCode === 45 || weatherCode === 48) {
     return Fog;
-  } else if (
-    (weatherCode > 50 && weatherCode < 70) ||
-    weatherCode === 80 ||
-    weatherCode === 81 ||
-    weatherCode === 82
-  ) {
+  } else if (weatherCode > 50 && weatherCode < 70) {
     return Rain;
+  } else if (weatherCode === 80 || weatherCode === 81 || weatherCode === 82) {
+    return HeavyRain;
   } else if (
     weatherCode > 70 &&
     weatherCode < 90 &&
