@@ -1,6 +1,7 @@
 {
         "titlePage": "Clima 🌎",
         "homeTitle": "Previsão do tempo da semana",
+        "titleEmptyLocation": "Previsão do Tempo",
         "subtitle": "para sua localização",
         "currentWeatherTitle": "Clima atual",
         "mainContentTitle": "Previsão do tempo dia",

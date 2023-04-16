@@ -1,6 +1,7 @@
 {
     "titlePage": "Weather 🌎",
     "homeTitle": "Weekly weather forecast",
+    "titleEmptyLocation": "Weather Forecast",
     "subtitle": "for your location",
     "currentWeatherTitle": "Current weather",
     "searchPlaceholder": "Search city",

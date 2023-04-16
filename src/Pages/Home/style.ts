@@ -31,6 +31,7 @@ export const BoxEmptyLocation = styled.div`
   animation: tam 0.5s linear forwards;
   transform: translateY(-20px);
   opacity: 0;
+  height: 100vh;
   h1 {
     margin-bottom: ${({ theme }) => theme.spacing.l};
   }
