@@ -29,7 +29,7 @@ export interface ILocation {
 }
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
+  const [hasData, setHasData] = useState(false);
   const [video, setVideo] = useState<any>(undefined);
   const {
     currentWeather,
@@ -94,7 +94,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    setLoading(true);
     getLocationData();
   }, []);
 
@@ -108,7 +107,7 @@ export default function Home() {
       getVideoBackground(
         (selectedDay !== ""
           ? dailyWeather?.weatherCode
-          : currentWeather?.weathercode) || 1,
+          : currentWeather?.weathercode) || 3,
       ),
     );
   }, [dailyWeather.weatherCode, currentWeather.weathercode]);
@@ -128,7 +127,7 @@ export default function Home() {
 
   useEffect(() => {
     if (weeklyWeather.length > 0 && currentWeather.temperature && video) {
-      setLoading(false);
+      setHasData(true);
     }
   }, [dailyWeather, weeklyWeather]);
 
@@ -140,14 +139,15 @@ export default function Home() {
 
   return (
     <Container>
-      <Dropdown />
-      {!locationData.longitude && loading ? (
+      {!locationData.longitude && !hasData ? (
         <S.BoxEmptyLocation>
-          <h1>Previsão do tempo</h1>
+          <Dropdown />
+          <h1>{t("titleEmptyLocation")}</h1>
           <Input />
         </S.BoxEmptyLocation>
       ) : (
         <>
+          <Dropdown />
           <CurrentWeatherBox />
           <S.Box>
             <h3>
