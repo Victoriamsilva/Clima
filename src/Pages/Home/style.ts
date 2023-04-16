@@ -21,6 +21,21 @@ export const Grid = styled.div`
   }
 `;
 
+export const BoxEmptyLocation = styled.div`
+  display: flex;
+  padding: ${({ theme }) => theme.spacing.xl};
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  animation: tam 0.5s linear forwards;
+  transform: translateY(-20px);
+  opacity: 0;
+  h1 {
+    margin-bottom: ${({ theme }) => theme.spacing.l};
+  }
+`;
+
 export const Box = styled.div`
   flex-grow: 1;
   overflow: hidden auto;
@@ -35,7 +50,6 @@ export const Box = styled.div`
     transform: translateY(-20px);
     opacity: 0;
     position: relative;
-    /* z-index: 1; */
   }
 
   @media screen and (${({ theme }) => theme.devices.tablet}) {
@@ -57,6 +71,7 @@ export const VideoBackground = styled.video`
   bottom: 0;
   min-width: 100%;
   min-height: 100%;
+  background-color: ${({ theme }) => theme.colors.blue};
   @media screen and (${({ theme }) => theme.devices.laptopL}) {
     max-width: 100vw;
   }
