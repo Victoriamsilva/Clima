@@ -1,8 +1,4 @@
-import {
-  DailyWeather,
-  HourlyWeather,
-  WeeklyWeather,
-} from "../Entities/dailyWeather";
+import { DailyWeather, WeeklyWeather } from "../Entities/dailyWeather";
 import { ILocation } from "../Entities/location";
 import { getHour } from "./getHour";
 
@@ -35,25 +31,6 @@ export function formatWeeklyWeather(data: any): WeeklyWeather[] {
       day,
       weatherCode: data.weathercode[index],
     });
-  });
-  return dataFormatted;
-}
-
-export function formatHourlyWeather(data: any): HourlyWeather[] {
-  let dataFormatted: HourlyWeather[] = [];
-  data.time.forEach((hour: string, index: number) => {
-    let object = {
-      temperature: data.temperature_2m[index],
-      relativeHumidity: data.relativehumidity_2m[index],
-      rain: data.rain[index],
-      showers: data.showers[index],
-      weatherCode: data.weathercode[index],
-      cloudCover: data.cloudcover[index],
-      visibility: data.visibility[index],
-      uvIndex: data.uv_index[index],
-      hour: getHour(hour),
-    };
-    dataFormatted.push(object);
   });
   return dataFormatted;
 }
