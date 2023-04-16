@@ -19,6 +19,7 @@ import { getWeatherIcon } from "../../Utils/getWeatherIcon";
 import { useTranslation } from "react-i18next";
 import Dropdown from "../../Components/Dropdown";
 import * as S from "./style";
+import Input from "../../Components/InputSearch";
 
 export interface ILocation {
   name?: string;
@@ -140,7 +141,12 @@ export default function Home() {
   return (
     <Container>
       <Dropdown />
-      {loading ? null : (
+      {!locationData.longitude && loading ? (
+        <S.BoxEmptyLocation>
+          <h1>Previsão do tempo</h1>
+          <Input />
+        </S.BoxEmptyLocation>
+      ) : (
         <>
           <CurrentWeatherBox />
           <S.Box>
@@ -165,6 +171,7 @@ export default function Home() {
           </S.Box>
         </>
       )}
+
       <S.VideoBackground ref={videoRef} autoPlay loop muted>
         <source src={video} type="video/mp4" />
       </S.VideoBackground>

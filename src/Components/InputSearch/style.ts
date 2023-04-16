@@ -3,6 +3,13 @@ import styled from "styled-components";
 export const Box = styled.div<{ isSearching?: boolean }>`
   position: relative;
   width: 100%;
+  max-width: 400px;
+  animation: tam 0.5s linear forwards;
+  animation-delay: 0.3s;
+  transform: translateY(-20px);
+  z-index: 1;
+  opacity: 0;
+
   img {
     position: absolute;
     top: ${({ isSearching }) => (isSearching ? "8px" : "5px")};
@@ -10,15 +17,6 @@ export const Box = styled.div<{ isSearching?: boolean }>`
     animation: ${({ isSearching }) =>
       isSearching ? "spinner .6s linear infinite" : "none"};
   }
-
-  animation: tam 0.5s linear forwards;
-  animation-delay: 0.3s;
-  transform: translateY(-20px);
-  z-index: 1;
-  opacity: 0;
-  /* -webkit-animation-fill-mode: initial;
-    animation-fill-mode: initial; */
-
   @keyframes spinner {
     to {
       transform: rotate(360deg);
@@ -46,7 +44,7 @@ export const Input = styled.input<{ hasResult?: boolean }>`
 export const List = styled.div`
   position: absolute;
   border-radius: 0 0 6px 6px;
-  background-color: #59677e;
+  background-color: ${({ theme }) => theme.colors.blue};
   width: 100%;
   overflow: hidden;
   color: ${({ theme }) => theme.colors.white};

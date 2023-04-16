@@ -23,7 +23,7 @@ export const Dropdown = styled.div<{ open: boolean }>`
 export const DropdownContent = styled.div<{ open: boolean }>`
   display: ${(props) => (props.open ? "block" : "none")};
   position: absolute;
-  background-color: #59677e;
+  background-color: ${({ theme }) => theme.colors.blue};
   z-index: 2;
   width: 100%;
   border-radius: 6px;
